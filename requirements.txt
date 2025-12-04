@@ -1,14 +1,14 @@
-flask==3.1.2
+Flask==3.1.2
 gunicorn==23.0.0
 itsdangerous==2.1.2
 Jinja2==3.1.4
 Werkzeug==3.1.2
 MarkupSafe==2.1.5
 
-# NLP Tools
+# Light NLP
 textblob==0.17.1
 nltk==3.8.1
 
-# Utilities
-pandas==2.1.4
+# Utils
 numpy==1.26.4
+pandas==2.1.4
