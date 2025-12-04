@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Sentiment Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo-area">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-img">
+        <div class="title-area">
+            <h1>Customer Sentiment Analysis</h1>
+            <p class="tagline">Analyzing customer opinions using text feedback</p>
+        </div>
+    </div>
+
+   <nav class="navbar">
+    <ul class="nav-links">
+
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+
+        <!-- صفحات مفتوحة للجميع -->
+        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('guide') }}">Guide</a></li>
+
+        {% if session.get('user_id') %}
+            <!-- تظهر فقط بعد تسجيل الدخول -->
+            <li><a href="{{ url_for('history') }}">History</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+        {% endif %}
+     </ul>
+</nav>
+
+
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="main-footer">
+    <p>Customer Sentiment Analysis – Graduation Project</p>
+</footer>
+
+</body>
+</html>

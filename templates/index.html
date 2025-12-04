@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="page-container">
+
+    <div class="section-card">
+        <h2>Analyze Customer Feedback</h2>
+        <p class="subtitle">
+            You can analyze a single feedback sentence or upload TXT / CSV files with multiple feedback entries.
+        </p>
+    </div>
+
+    <div class="analysis-grid">
+
+        <!-- LEFT: single sentence -->
+        <div class="card-box">
+            <h3>Single feedback sentence</h3>
+
+            {% if error_text %}
+                <p class="error">{{ error_text }}</p>
+            {% endif %}
+
+            <form action="{{ url_for('analyze_text_route') }}" method="POST">
+                <label>Customer feedback</label>
+                <textarea name="feedback"
+                          placeholder="Write the full feedback here (English or Arabic)..."
+                          required></textarea>
+
+                <button type="submit" class="btn-primary">Analyze Sentence</button>
+            </form>
+
+            {% if feedback %}
+            <div class="result-box">
+                <h4>Analysis result</h4>
+                <p><strong>Original feedback:</strong> {{ feedback }}</p>
+                <p><strong>Sentiment label:</strong> {{ sentiment_label }}</p>
+                <p><strong>Score:</strong> {{ sentiment_score }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- RIGHT: TXT / CSV -->
+        <div class="card-box">
+            <h3>File with multiple feedback entries</h3>
+
+            {% if error_file %}
+                <p class="error">{{ error_file }}</p>
+            {% endif %}
+
+            <form action="{{ url_for('analyze_file_route') }}" method="POST" enctype="multipart/form-data">
+                <label>Upload .txt file</label>
+                <input type="file" name="feedback_file" accept=".txt" required>
+                <button type="submit" class="btn-secondary">Analyze TXT</button>
+            </form>
+
+            <div class="or-separator">or</div>
+
+            <form action="{{ url_for('analyze_csv_route') }}" method="POST" enctype="multipart/form-data">
+                <label>Upload .csv file</label>
+                <input type="file" name="csv_file" accept=".csv" required>
+                <button type="submit" class="btn-secondary">Analyze CSV</button>
+            </form>
+
+            {% if file_summary %}
+            <div class="result-box">
+                <h4>File Summary</h4>
+
+                <p><strong>Total entries:</strong> {{ file_summary.total }}</p>
+                <p><strong>Positive:</strong> {{ file_summary.positive }}</p>
+                <p><strong>Negative:</strong> {{ file_summary.negative }}</p>
+                <p><strong>Neutral:</strong> {{ file_summary.neutral }}</p>
+
+                <hr>
+
+                <p><strong>Positive %:</strong> {{ file_summary.pos_percent }}%</p>
+                <p><strong>Negative %:</strong> {{ file_summary.neg_percent }}%</p>
+                <p><strong>Neutral %:</strong> {{ file_summary.neu_percent }}%</p>
+
+                {% if file_summary.chart %}
+                    <h4>Visualization</h4>
+                    <img src="data:image/png;base64,{{ file_summary.chart }}" class="chart-img" alt="Chart">
+                {% endif %}
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

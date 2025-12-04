@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="page-container">
+    <div class="section-card">
+        <h2>Analysis History</h2>
+        <p class="subtitle">Previously analyzed feedback for your account.</p>
+    </div>
+
+    <div class="card-box">
+        {% if analyses and analyses|length > 0 %}
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Text</th>
+                    <th>Sentiment</th>
+                    <th>Score</th>
+                    <th>Source</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in analyses %}
+                <tr>
+                    <td>{{ row.original_text }}</td>
+                    <td>{{ row.sentiment_label }}</td>
+                    <td>{{ row.score }}</td>
+                    <td>{{ row.input_type }}</td>
+                    <td>{{ row.created_at }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No history yet. Analyze some feedback first.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
